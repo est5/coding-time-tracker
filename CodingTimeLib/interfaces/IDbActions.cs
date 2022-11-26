@@ -8,5 +8,5 @@ public interface IDbActions
     CodingSession GetOneSession(int id);
     List<CodingSession> GetAllSessions();
     void DeleteSession(int id);
-    void UpdateSession(int id);
+    void UpdateSession(int id, CodingSession session);
 }

@@ -30,24 +30,20 @@ public class SQLiteController : IDbActions
             SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
             idParam.Value = session.Id;
             coding.Parameters.Add(idParam);
-            coding.Prepare();
 
             SqliteParameter startParam = new SqliteParameter("@start", SqliteType.Text);
-            idParam.Value = session.Id;
+            startParam.Value = session.StartTime;
             coding.Parameters.Add(startParam);
-            coding.Prepare();
 
             SqliteParameter endParam = new SqliteParameter("@end", SqliteType.Text);
-            idParam.Value = session.Id;
+            endParam.Value = session.EndTime;
             coding.Parameters.Add(endParam);
-            coding.Prepare();
 
             SqliteParameter durationParam = new SqliteParameter("@duration", SqliteType.Integer);
-            idParam.Value = session.Id;
+            durationParam.Value = session.Duration;
             coding.Parameters.Add(durationParam);
+
             coding.Prepare();
-
-
             coding.ExecuteNonQuery();
         }
     }
@@ -77,15 +73,44 @@ public class SQLiteController : IDbActions
             SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
             idParam.Value = id;
             delSession.Parameters.Add(idParam);
-            delSession.Prepare();
 
+            delSession.Prepare();
             delSession.ExecuteNonQuery();
         }
     }
 
-    public void UpdateSession(int id)
+    public void UpdateSession(int id, CodingSession session)
     {
-        throw new NotImplementedException();
+        using (var connection = new SqliteConnection(_conStr))
+        {
+            connection.Open();
+
+            var updSession = connection.CreateCommand();
+            updSession.CommandText = @"
+            UPDATE coding
+            SET start_time = @start, end_time = @end, duration = @duration
+            WHERE session_id = @id
+            )";
+
+            SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
+            idParam.Value = id;
+            updSession.Parameters.Add(idParam);
+
+            SqliteParameter startParam = new SqliteParameter("@start", SqliteType.Text);
+            startParam.Value = session.StartTime;
+            updSession.Parameters.Add(startParam);
+
+            SqliteParameter endParam = new SqliteParameter("@end", SqliteType.Text);
+            endParam.Value = session.EndTime;
+            updSession.Parameters.Add(endParam);
+
+            SqliteParameter durationParam = new SqliteParameter("@duration", SqliteType.Integer);
+            durationParam.Value = session.Duration;
+            updSession.Parameters.Add(durationParam);
+
+            updSession.Prepare();
+            updSession.ExecuteNonQuery();
+        }
     }
 
     private void InitDb()
