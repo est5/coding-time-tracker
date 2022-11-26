@@ -62,7 +62,6 @@ public class SQLiteController : IDbActions
             SELECT session_id, start_time, end_time, duration coding FROM coding
             ";
 
-            getOneSession.Prepare();
             var reader = getOneSession.ExecuteReader();
             while (reader.Read())
             {
