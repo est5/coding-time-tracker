@@ -66,10 +66,10 @@ public class SQLiteController : IDbActions
             while (reader.Read())
             {
                 var session = new CodingDTO();
-                session.Id = (int)reader[0];
+                session.Id = Convert.ToInt32(reader[0]);
                 session.StartTime = (string)reader[1];
                 session.EndTime = (string)reader[2];
-                session.Duration = (int)reader[3];
+                session.Duration = Convert.ToInt32(reader[3]);
                 sessions.Add(session);
             }
 
@@ -91,7 +91,7 @@ public class SQLiteController : IDbActions
             getOneSession.CommandText = @"
             SELECT session_id, start_time, end_time, duration FROM coding
             WHERE session_id = @id
-            )";
+            ";
 
             SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
             idParam.Value = id;
@@ -101,10 +101,10 @@ public class SQLiteController : IDbActions
             var reader = getOneSession.ExecuteReader();
             while (reader.Read())
             {
-                session.Id = (int)reader[0];
+                session.Id = Convert.ToInt32(reader[0]);
                 session.StartTime = (string)reader[1];
                 session.EndTime = (string)reader[2];
-                session.Duration = (int)reader[3];
+                session.Duration = Convert.ToInt32(reader[3]);
             }
 
         }
@@ -122,7 +122,7 @@ public class SQLiteController : IDbActions
             delSession.CommandText = @"
             DELETE FROM coding
             WHERE session_id = @id
-            )";
+            ";
 
             SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
             idParam.Value = id;
@@ -144,7 +144,7 @@ public class SQLiteController : IDbActions
             UPDATE coding
             SET start_time = @start, end_time = @end, duration = @duration
             WHERE session_id = @id
-            )";
+            ";
 
             SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
             idParam.Value = id;

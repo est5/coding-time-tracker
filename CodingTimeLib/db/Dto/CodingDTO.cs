@@ -2,6 +2,10 @@ namespace CodingTimeLib.db;
 
 public class CodingDTO
 {
+    public CodingDTO()
+    {
+    }
+
     public CodingDTO(int id, string startTime, string endTime, int duration)
     {
         Id = id;
