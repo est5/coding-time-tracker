@@ -1,3 +1,4 @@
+using CodingTimeLib.db;
 using CodingTimeLib.model;
 
 namespace CodingTimeLib.interfaces;
@@ -5,8 +6,8 @@ namespace CodingTimeLib.interfaces;
 public interface IDbActions
 {
     void AddSession(CodingSession session);
-    CodingSession GetOneSession(int id);
-    List<CodingSession> GetAllSessions();
+    CodingDTO GetOneSession(int id);
+    List<CodingDTO> GetAllSessions();
     void DeleteSession(int id);
     void UpdateSession(int id, CodingSession session);
 }

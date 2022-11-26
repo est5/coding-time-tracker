@@ -48,14 +48,69 @@ public class SQLiteController : IDbActions
         }
     }
 
-    public List<CodingSession> GetAllSessions()
+    public List<CodingDTO> GetAllSessions()
     {
-        throw new NotImplementedException();
+        var sessions = new List<CodingDTO>();
+
+
+        using (var connection = new SqliteConnection(_conStr))
+        {
+            connection.Open();
+
+            var getOneSession = connection.CreateCommand();
+            getOneSession.CommandText = @"
+            SELECT session_id, start_time, end_time, duration coding FROM coding
+            ";
+
+            getOneSession.Prepare();
+            var reader = getOneSession.ExecuteReader();
+            while (reader.Read())
+            {
+                var session = new CodingDTO();
+                session.Id = (int)reader[0];
+                session.StartTime = (string)reader[1];
+                session.EndTime = (string)reader[2];
+                session.Duration = (int)reader[3];
+                sessions.Add(session);
+            }
+
+        }
+
+        return sessions;
     }
 
-    public CodingSession GetOneSession(int id)
+    public CodingDTO GetOneSession(int id)
     {
-        throw new NotImplementedException();
+        var session = new CodingDTO();
+
+
+        using (var connection = new SqliteConnection(_conStr))
+        {
+            connection.Open();
+
+            var getOneSession = connection.CreateCommand();
+            getOneSession.CommandText = @"
+            SELECT session_id, start_time, end_time, duration FROM coding
+            WHERE session_id = @id
+            )";
+
+            SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
+            idParam.Value = id;
+            getOneSession.Parameters.Add(idParam);
+
+            getOneSession.Prepare();
+            var reader = getOneSession.ExecuteReader();
+            while (reader.Read())
+            {
+                session.Id = (int)reader[0];
+                session.StartTime = (string)reader[1];
+                session.EndTime = (string)reader[2];
+                session.Duration = (int)reader[3];
+            }
+
+        }
+
+        return session;
     }
 
     public void DeleteSession(int id)

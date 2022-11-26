@@ -3,6 +3,9 @@ namespace CodingTimeLib.model;
 public class CodingSession
 {
     private static int _id = 0;
+
+    public CodingSession() { }
+
     public CodingSession(string startTime, string endTime)
     {
         StartTime = startTime;
