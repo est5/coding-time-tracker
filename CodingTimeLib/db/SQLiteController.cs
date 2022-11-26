@@ -8,6 +8,11 @@ public class SQLiteController : IDbActions
 {
     private static string _conStr = "Data Source=codingTime.db";
 
+    public SQLiteController()
+    {
+        InitDb();
+    }
+
     public void AddSession(CodingSession session)
     {
         using (var connection = new SqliteConnection(_conStr))
@@ -57,9 +62,25 @@ public class SQLiteController : IDbActions
         throw new NotImplementedException();
     }
 
-    public void RemoveSession(int id)
+    public void DeleteSession(int id)
     {
-        throw new NotImplementedException();
+        using (var connection = new SqliteConnection(_conStr))
+        {
+            connection.Open();
+
+            var delSession = connection.CreateCommand();
+            delSession.CommandText = @"
+            DELETE FROM coding
+            WHERE session_id = @id
+            )";
+
+            SqliteParameter idParam = new SqliteParameter("@id", SqliteType.Integer);
+            idParam.Value = id;
+            delSession.Parameters.Add(idParam);
+            delSession.Prepare();
+
+            delSession.ExecuteNonQuery();
+        }
     }
 
     public void UpdateSession(int id)
@@ -79,7 +100,7 @@ public class SQLiteController : IDbActions
             session_id integer PRIMARY KEY,
             start_time text ,
             end_time text ,
-            duration integer ,
+            duration integer
             )";
 
             createCodingTimeTable.ExecuteNonQuery();
