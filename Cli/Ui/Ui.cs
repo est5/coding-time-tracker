@@ -51,7 +51,33 @@ static public class Ui
 
     private static void UpdateSession()
     {
-        throw new NotImplementedException();
+        Console.Clear();
+        GetAllSessions();
+        Console.WriteLine("Please enter id of session you wanna update: ");
+        int id;
+        CodingSession session;
+        while (true)
+        {
+            try
+            {
+                id = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.WriteLine("Enter start time...");
+                string startTime = AskForTime("start");
+
+                Console.Clear();
+                Console.WriteLine("Enter end time...");
+                string endTime = AskForTime("end");
+
+                session = new CodingSession(startTime, endTime);
+                break;
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("It must be a number");
+            }
+        }
+        _db.UpdateSession(id, session);
     }
 
     private static void DeleteSession()
@@ -65,6 +91,7 @@ static public class Ui
             try
             {
                 id = Convert.ToInt32(Console.ReadLine());
+
                 break;
             }
             catch (System.Exception)
