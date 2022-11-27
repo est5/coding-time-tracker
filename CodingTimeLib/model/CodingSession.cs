@@ -2,7 +2,6 @@ namespace CodingTimeLib.model;
 
 public class CodingSession
 {
-    private static int _id = 0;
 
     public CodingSession() { }
 
@@ -11,7 +10,7 @@ public class CodingSession
         StartTime = startTime;
         EndTime = endTime;
         Duration = CalculateTime();
-        Id = _id++;
+        Id = Random.Shared.Next();
     }
     public int Id { get; private set; }
     public string StartTime { get; set; }
@@ -20,7 +19,11 @@ public class CodingSession
 
     private int CalculateTime()
     {
-        return 0;
+        var start = DateTime.Parse(StartTime);
+        var end = DateTime.Parse(EndTime);
+
+        var diff = end.Subtract(start).TotalHours;
+        return (int)diff;
     }
 
 }

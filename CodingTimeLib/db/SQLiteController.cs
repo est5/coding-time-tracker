@@ -176,7 +176,7 @@ public class SQLiteController : IDbActions
             var createCodingTimeTable = connection.CreateCommand();
             createCodingTimeTable.CommandText = @"
             CREATE TABLE IF NOT EXISTS coding(
-            session_id integer PRIMARY KEY,
+            session_id text PRIMARY KEY,
             start_time text ,
             end_time text ,
             duration integer
