@@ -35,8 +35,10 @@ static public class Ui
                     CreateNewSession();
                     break;
                 case 3:
+                    DeleteSession();
                     break;
                 case 4:
+                    UpdateSession();
                     break;
 
                 default:
@@ -45,6 +47,32 @@ static public class Ui
             }
         }
 
+    }
+
+    private static void UpdateSession()
+    {
+        throw new NotImplementedException();
+    }
+
+    private static void DeleteSession()
+    {
+        Console.Clear();
+        GetAllSessions();
+        Console.WriteLine("Please enter id of session you wanna delete: ");
+        int id;
+        while (true)
+        {
+            try
+            {
+                id = Convert.ToInt32(Console.ReadLine());
+                break;
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine("It must be a number");
+            }
+        }
+        _db.DeleteSession(id);
     }
 
     private static string AskForTime(string whatTime)
@@ -141,6 +169,6 @@ static public class Ui
         Console.Clear();
         Console.WriteLine("--- Sessions ---");
         var list = _db.GetAllSessions();
-        list.ForEach(ele => Console.WriteLine($"Start time: {ele.StartTime}\nEnd time: {ele.EndTime}\nHours: {ele.Duration}(hours)\n---"));
+        list.ForEach(ele => Console.WriteLine($"ID: {ele.Id}\nStart time: {ele.StartTime}\nEnd time: {ele.EndTime}\nHours: {ele.Duration}(hours)\n---"));
     }
 }
